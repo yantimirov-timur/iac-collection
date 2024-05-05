@@ -1,0 +1,30 @@
+- name: My first play
+  hosts: myhosts
+  become: yes
+  become_method:
+    sudo
+  tasks:
+   - name: Ping my hosts
+     ansible.builtin.ping:
+
+   - name: Print message
+     ansible.builtin.debug:
+      msg: Hello world
+
+   - name: Create test dir
+     ansible.builtin.file:
+       path: /home/timur-test/test.txt
+       state: directory
+   - name: install EPEL repo
+     become: yes
+     yum: name=epel-release state=present
+   - name: Install nginx
+     yum:
+       name: nginx
+       state: present
+       
+   - name: start nginx
+     service: 
+       name: nginx
+       state: started
+       enabled: yes  # if you want to also enable nginx
